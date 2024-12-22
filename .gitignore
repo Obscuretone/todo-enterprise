@@ -1,0 +1,37 @@
+# Compiled source files
+*.class
+
+# Log files
+*.log
+*.out
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Operating system
+.DS_Store
+Thumbs.db
+
+# Docker
+*.swp
+*.swo
+*.swn
+!**/*.jar
+.env
+
+.vscode
