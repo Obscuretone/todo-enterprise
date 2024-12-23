@@ -22,6 +22,18 @@ public class Todo {
     @CreationTimestamp
     private LocalDateTime createdDate;
 
+    // Constructor with parameters (required for your use case)
+    public Todo(UUID id, String title, String description, boolean completed) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.completed = completed;
+    }
+
+    // No-args constructor (required by JPA/Hibernate)
+    public Todo() {
+    }
+
     // Getters and Setters
 
     public UUID getId() {
