@@ -98,25 +98,27 @@ class TodoServiceTest {
         when(repository.save(any(Todo.class))).thenReturn(updatedTodo);
 
         // Act
-        Todo result = todoService.updateTodo(id, updatedTodo);
+        Optional<Todo> result = todoService.updateTodo(id, updatedTodo);
 
         // Assert
-        assertNotNull(result);
-        assertEquals("Updated Task", result.getTitle());
+        assertTrue(result.isPresent());
+        assertEquals("Updated Task", result.get().getTitle());
         verify(repository, times(1)).findById(id);
         verify(repository, times(1)).save(existingTodo);
     }
 
     @Test
-    void updateTodo_ShouldThrowIfNotFound() {
+    void updateTodo_ShouldReturnEmptyIfNotFound() {
         // Arrange
         UUID id = UUID.randomUUID();
         Todo updatedTodo = new Todo(id, "Updated Task", "Updated Description", true);
         when(repository.findById(id)).thenReturn(Optional.empty());
 
-        // Act & Assert
-        Exception exception = assertThrows(RuntimeException.class, () -> todoService.updateTodo(id, updatedTodo));
-        assertEquals("ToDo not found", exception.getMessage());
+        // Act
+        Optional<Todo> result = todoService.updateTodo(id, updatedTodo);
+
+        // Assert
+        assertFalse(result.isPresent());
         verify(repository, times(1)).findById(id);
         verify(repository, never()).save(any(Todo.class));
     }

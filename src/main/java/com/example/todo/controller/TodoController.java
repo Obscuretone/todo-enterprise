@@ -4,10 +4,13 @@ import com.example.todo.model.Todo;
 import com.example.todo.service.TodoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @RestController
 @RequestMapping("/tasks")
@@ -29,7 +32,6 @@ public class TodoController {
         return service.createTodo(todo);
     }
 
-    // Change Long to UUID for the id parameter
     @GetMapping("/{id}")
     public ResponseEntity<Todo> getTodoById(@PathVariable UUID id) {
         return service.getTodoById(id)
@@ -37,13 +39,13 @@ public class TodoController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    // Change Long to UUID for the id parameter
     @PutMapping("/{id}")
-    public Todo updateTodo(@PathVariable UUID id, @RequestBody Todo todo) {
-        return service.updateTodo(id, todo);
+    public ResponseEntity<Todo> updateTodo(@PathVariable UUID id, @RequestBody Todo todo) {
+        return service.updateTodo(id, todo)
+                .map(ResponseEntity::ok)
+                .orElseThrow(() -> new ResponseStatusException(NOT_FOUND, "Todo not found"));
     }
 
-    // Change Long to UUID for the id parameter
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTodoById(@PathVariable UUID id) {
         service.deleteTodoById(id);
