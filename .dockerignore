@@ -1,0 +1,9 @@
+.git
+.gitignore
+.mvn
+.vscode
+target/*
+!target/todo-app-1.0.0.jar
+*.log
+*.out
+.DS_Store
