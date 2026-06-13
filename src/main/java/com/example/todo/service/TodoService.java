@@ -30,21 +30,18 @@ public class TodoService {
         return repository.save(todo);
     }
 
-    // Change method to use UUID for ID
-    @Cacheable("todos")
     public Optional<Todo> getTodoById(UUID id) {
         return repository.findById(id);
     }
 
-    // Change method to use UUID for ID
     @CacheEvict(value = "todos", allEntries = true)
-    public Todo updateTodo(UUID id, Todo updatedTodo) {
+    public Optional<Todo> updateTodo(UUID id, Todo updatedTodo) {
         return repository.findById(id).map(todo -> {
             todo.setTitle(updatedTodo.getTitle());
             todo.setDescription(updatedTodo.getDescription());
             todo.setCompleted(updatedTodo.isCompleted());
             return repository.save(todo);
-        }).orElseThrow(() -> new RuntimeException("ToDo not found"));
+        });
     }
 
     @CacheEvict(value = "todos", allEntries = true)
