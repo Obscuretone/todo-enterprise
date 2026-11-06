@@ -35,3 +35,16 @@ Thumbs.db
 .env
 
 .vscode
+
+# Local files and installed dependencies
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+node_modules/
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.nira/*.db
+.nira/*.db-*
